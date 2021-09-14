@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const dbConfig = require("./config/db");
 
 let toursTable = require("./models/tours");
+let usersTable = require("./models/users");
 
 //connecting to db
 mongoose.connect(dbConfig.database, {
@@ -58,6 +59,34 @@ app.get("/api/home/tours", (req, res) => {
     .limit(5)
     .select("title images price currency")
     .sort({ date: "desc" });
+});
+
+app.post("/api/login", (req, res) => {
+  let query = { email: req.body.email, password: req.body.password };
+  usersTable.find(query, (err, user) => {
+    if (err) return err;
+    let message;
+    if (user.length !== 1) {
+      message = {
+        success: false,
+        msg: "Invalid username or password",
+      };
+    } else {
+      message = {
+        success: true,
+        msg: "Logged in successfull",
+        user: [
+          {
+            email: user[0].email,
+            name: user[0].name,
+            address: user[0].address,
+            phone: user[0].phone,
+          },
+        ],
+      };
+    }
+    res.json(message);
+  });
 });
 
 app.listen(8080, () => {
