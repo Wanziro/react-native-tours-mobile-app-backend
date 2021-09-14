@@ -5,6 +5,6 @@
 
 module.exports = {
   database:
-    "mongodb+srv://wanziro:wanziro@45@cluster0.tq2xp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "mongodb+srv://wanziro:wanziro@45@cluster0.tq2xp.mongodb.net/myDb?retryWrites=true&w=majority",
   secret: "any thing",
 };
