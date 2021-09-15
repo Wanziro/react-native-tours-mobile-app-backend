@@ -89,6 +89,20 @@ app.post("/api/login", (req, res) => {
   });
 });
 
+app.post("/api/register", (req, res) => {
+  let user = new usersTable();
+  user.name = req.body.names;
+  user.email = req.body.email;
+  user.password = req.body.password;
+  user.save((err) => {
+    if (err) {
+      res.json({ message: "Failed" });
+    } else {
+      res.json({ message: "Success" });
+    }
+  });
+});
+
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log("Server started on port " + port);

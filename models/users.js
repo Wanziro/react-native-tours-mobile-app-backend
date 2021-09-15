@@ -9,9 +9,9 @@ let date = y + "-" + m + "-" + d;
 let usersSchema = mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
-  password: [],
-  address: [],
-  phone: [],
+  password: { type: String, required: true },
+  address: { type: String },
+  phone: { type: String },
   date: { type: String, default: date },
 });
 
