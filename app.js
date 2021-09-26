@@ -112,21 +112,23 @@ app.post("/api/tours/booking1", (req, res) => {
       message:
         "<p style='color:orange;font-size:20px'>You have already booked at this tour.</p>",
     });
+  } else {
+    //The user has never booked this tour
+    let booking = new toursBookingTable();
+    booking.tourId = tourId;
+    booking.userEmail = userEmail;
+    booking.bookingType = "Travel Documents";
+    booking.bookingDocumentType = documentType;
+    booking.bookingDocument = bookingDocument;
+    booking.payment = [];
+    booking.save((err) => {
+      if (err) {
+        res.json({ message: "Something went wrong. " + err });
+      } else {
+        res.json({ message: "success" });
+      }
+    });
   }
-  let booking = new toursBookingTable();
-  booking.tourId = tourId;
-  booking.userEmail = userEmail;
-  booking.bookingType = "Travel Documents";
-  booking.bookingDocumentType = documentType;
-  booking.bookingDocument = bookingDocument;
-  booking.payment = [];
-  booking.save((err) => {
-    if (err) {
-      res.json({ message: "Something went wrong. " + err });
-    } else {
-      res.json({ message: "success" });
-    }
-  });
 });
 
 app.post("/api/register", (req, res) => {
