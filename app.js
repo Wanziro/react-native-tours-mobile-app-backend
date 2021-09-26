@@ -8,6 +8,7 @@ const dbConfig = require("./config/db");
 
 let toursTable = require("./models/tours");
 let usersTable = require("./models/users");
+let toursBookingTable = require("./models/tours_booking");
 
 //connecting to db
 mongoose.connect(dbConfig.database, {
@@ -27,8 +28,11 @@ db.on("error", (err) => {
 });
 
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(express.json({ limit: "25mb" }));
+app.use(express.urlencoded({ limit: "25mb" }));
 
 app.get("/", (req, res) => {
   res.send("<h1>Rwanda Nziza REST API's</h1>");
@@ -70,6 +74,7 @@ app.post("/api/login", (req, res) => {
       message = {
         success: false,
         msg: "Invalid username or password",
+        pwd: req.body.password,
       };
     } else {
       message = {
@@ -89,11 +94,30 @@ app.post("/api/login", (req, res) => {
   });
 });
 
+app.post("/api/tours/booking1", (req, res) => {
+  let { tourId, userEmail, documentType, bookingDocument } = req.body;
+  let booking = new toursBookingTable();
+  booking.tourId = tourId;
+  booking.userEmail = userEmail;
+  booking.bookingType = "Travel Documents";
+  booking.bookingDocumentType = documentType;
+  booking.bookingDocument = bookingDocument;
+  booking.payment = [];
+  booking.save((err) => {
+    if (err) {
+      res.json({ message: "Something went wrong. " + err });
+    } else {
+      res.json({ message: "success" });
+    }
+  });
+});
+
 app.post("/api/register", (req, res) => {
   let user = new usersTable();
   user.name = req.body.names;
   user.email = req.body.email;
   user.password = req.body.password;
+  //??? check if passwords are equal
   user.save((err) => {
     if (err) {
       res.json({ message: "Failed" });
