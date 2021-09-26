@@ -97,20 +97,19 @@ app.post("/api/login", (req, res) => {
 app.post("/api/tours/booking1", (req, res) => {
   let { tourId, userEmail, documentType, bookingDocument } = req.body;
   let booking = new toursBookingTable();
-  // booking.tourId = tourId;
-  // booking.userEmail = userEmail;
-  // booking.bookingType = "Travel Documents";
-  // booking.bookingDocumentType = documentType;
-  // booking.bookingDocument = bookingDocument;
-  // booking.payment = [];
-  // booking.save((err) => {
-  //   if (err) {
-  //     res.json({ message: "Something went wrong. " + err });
-  //   } else {
-  //     res.json({ message: "success" });
-  //   }
-  // });
-  res.json({ tourId: tourId });
+  booking.tourId = tourId;
+  booking.userEmail = userEmail;
+  booking.bookingType = "Travel Documents";
+  booking.bookingDocumentType = documentType;
+  booking.bookingDocument = bookingDocument;
+  booking.payment = [];
+  booking.save((err) => {
+    if (err) {
+      res.json({ message: "Something went wrong. " + err });
+    } else {
+      res.json({ message: "success" });
+    }
+  });
 });
 
 app.post("/api/register", (req, res) => {
