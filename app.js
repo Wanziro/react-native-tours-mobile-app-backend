@@ -94,8 +94,25 @@ app.post("/api/login", (req, res) => {
   });
 });
 
+const checkIfUserHasAlreadyBooked = (userEmail, tourId) => {
+  let query = { tourId, userEmail };
+  toursBookingTable.find(query, (err, info) => {
+    if (err) return err;
+    if (info.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+};
 app.post("/api/tours/booking1", (req, res) => {
   let { tourId, userEmail, documentType, bookingDocument } = req.body;
+  if (checkIfUserHasAlreadyBooked(userEmail, tourId)) {
+    res.json({
+      message:
+        "<p style='color:orange;font-size:20px'>You have already booked at this tour.</p>",
+    });
+  }
   let booking = new toursBookingTable();
   booking.tourId = tourId;
   booking.userEmail = userEmail;
