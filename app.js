@@ -143,6 +143,15 @@ app.post("/api/tours/info/", (req, res) => {
     .sort({ date: "desc" });
 });
 
+app.post("/api/tours/allInfo/", (req, res) => {
+  toursBookingTable
+    .find({}, (err, allTours) => {
+      if (err) return err;
+      res.json(allTours);
+    })
+    .sort({ date: "desc" });
+});
+
 app.post("/api/booking/delete", (req, res) => {
   toursBookingTable.remove({ _id: req.body.id }, (err) => {
     if (err) {
