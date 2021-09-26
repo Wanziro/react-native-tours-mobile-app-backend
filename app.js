@@ -110,7 +110,7 @@ app.post("/api/tours/booking1", (req, res) => {
   //     res.json({ message: "success" });
   //   }
   // });
-  res.json(tourId + " is iddddd");
+  res.json({ tourId: tourId });
 });
 
 app.post("/api/register", (req, res) => {
