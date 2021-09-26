@@ -131,9 +131,9 @@ app.post("/api/tours/booking1", (req, res) => {
   }
 });
 
-app.get("/api/tours/booking/info", (req, res) => {
+app.get("/api/tours/booking/info/:userEmail", (req, res) => {
   let userEmail = "";
-  userEmail = req.params.userEmail;
+  user = req.params.userEmail;
   toursBookingTable
     .find({ userEmail: userEmail }, (err, allTours) => {
       if (err) return err;
