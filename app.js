@@ -131,7 +131,7 @@ app.post("/api/tours/booking1", (req, res) => {
   }
 });
 
-app.get("/api/tours/booking/info/", (req, res) => {
+app.get("/api/tours/info/", (req, res) => {
   // let userEmail = "";
   // userEmail = req.params.userEmail;
   toursBookingTable
