@@ -8,11 +8,13 @@ let date = y + "-" + m + "-" + d;
 //creating article schema (structure of students collaction)
 let toursBookingSchema = mongoose.Schema({
   tourId: { type: String, required: true },
+  title: { type: String, required: true },
   userEmail: { type: String, required: true },
   bookingType: { type: String, required: true },
   bookingDocumentType: { required: true, type: String },
   bookingDocument: { required: true, type: String, default: null },
   payment: [],
+  status: { type: String, default: "Pending" },
   date: { type: String, default: date },
 });
 

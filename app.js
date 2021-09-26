@@ -106,7 +106,7 @@ const checkIfUserHasAlreadyBooked = (userEmail, tourId) => {
   });
 };
 app.post("/api/tours/booking1", (req, res) => {
-  let { tourId, userEmail, documentType, bookingDocument } = req.body;
+  let { tourId, title, userEmail, documentType, bookingDocument } = req.body;
   if (checkIfUserHasAlreadyBooked(userEmail, tourId)) {
     res.json({
       message:
@@ -120,6 +120,7 @@ app.post("/api/tours/booking1", (req, res) => {
     booking.bookingType = "Travel Documents";
     booking.bookingDocumentType = documentType;
     booking.bookingDocument = bookingDocument;
+    booking.title = title;
     booking.payment = [];
     booking.save((err) => {
       if (err) {
@@ -139,6 +140,15 @@ app.post("/api/tours/info/", (req, res) => {
       res.json(allTours);
     })
     .sort({ date: "desc" });
+});
+
+app.post("/api/booking/delete", (req, res) => {
+  toursBookingTable.remove({ _id: req.body.id }, (err) => {
+    if (err) {
+      return err;
+    }
+    res.json({ message: "success" });
+  });
 });
 
 app.post("/api/register", (req, res) => {
