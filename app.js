@@ -161,6 +161,32 @@ app.post("/api/booking/delete", (req, res) => {
   });
 });
 
+app.post("/api/booking/aprove", (req, res) => {
+  toursBookingTable.updateOne(
+    { _id: req.body.id },
+    { status: "Approved" },
+    (err) => {
+      if (err) {
+        return err;
+      }
+      res.json({ message: "success" });
+    }
+  );
+});
+
+app.post("/api/booking/reject", (req, res) => {
+  toursBookingTable.updateOne(
+    { _id: req.body.id },
+    { status: "Rejected" },
+    (err) => {
+      if (err) {
+        return err;
+      }
+      res.json({ message: "success" });
+    }
+  );
+});
+
 app.post("/api/register", (req, res) => {
   let user = new usersTable();
   user.name = req.body.names;
