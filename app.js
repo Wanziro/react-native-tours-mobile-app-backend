@@ -86,6 +86,7 @@ app.post("/api/login", (req, res) => {
             name: user[0].name,
             address: user[0].address,
             phone: user[0].phone,
+            type: user[0].type,
           },
         ],
       };

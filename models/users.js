@@ -10,8 +10,9 @@ let usersSchema = mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
-  address: { type: String },
-  phone: { type: String },
+  address: { type: String, default: "Not set" },
+  phone: { type: String, default: "Not Set" },
+  type: { type: String, default: "visitor" },
   date: { type: String, default: date },
 });
 
