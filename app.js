@@ -131,6 +131,17 @@ app.post("/api/tours/booking1", (req, res) => {
   }
 });
 
+app.get("/api/tours/booking/info", (req, res) => {
+  let userEmail = "";
+  userEmail = req.params.userEmail;
+  toursBookingTable
+    .find({ userEmail: userEmail }, (err, allTours) => {
+      if (err) return err;
+      res.json(allTours);
+    })
+    .sort({ date: "desc" });
+});
+
 app.post("/api/register", (req, res) => {
   let user = new usersTable();
   user.name = req.body.names;
