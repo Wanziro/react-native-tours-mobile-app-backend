@@ -64,13 +64,59 @@ app.post("/api/cars", (req, res) => {
     .sort({ date: "desc" });
 });
 
-app.post("/api/users", (req, res) => {
-  usersTable
-    .find({}, (err, allTours) => {
+app.post("/api/cars/booked", (req, res) => {
+  carsTable
+    .find({ status: "Booked" }, (err, allTours) => {
       if (err) return err;
       res.json(allTours);
     })
     .sort({ date: "desc" });
+});
+
+const checkIfCAlreadyExist = (title) => {
+  let query = { title: title };
+  toursTable.find(query, (err, info) => {
+    if (err) return err;
+    if (info.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+};
+
+app.post("/api/cars/new", (req, res) => {
+  let { currency, description, name, price, image } = req.body;
+  if (checkIfCAlreadyExist(name)) {
+    res.json({
+      message:
+        "<p style='color:orange;font-size:20px'>The Car with the name you provided already exists.</p>",
+    });
+  } else {
+    //The user has never booked this tour
+    let car = new carsTable();
+    car.name = name;
+    car.currency = currency;
+    car.description = description;
+    car.price = price;
+    car.images = image;
+    car.save((err) => {
+      if (err) {
+        res.json({ message: "Something went wrong. " + err });
+      } else {
+        res.json({ message: "success" });
+      }
+    });
+  }
+});
+
+app.post("/api/cars/delete", (req, res) => {
+  carsTable.remove({ _id: req.body.id }, (err) => {
+    if (err) {
+      return err;
+    }
+    res.json({ message: "success" });
+  });
 });
 
 app.post("/api/cars/notBooked", (req, res) => {
@@ -90,6 +136,15 @@ app.get("/api/home/tours", (req, res) => {
     })
     .limit(5)
     .select("title images price currency")
+    .sort({ date: "desc" });
+});
+
+app.post("/api/users", (req, res) => {
+  usersTable
+    .find({}, (err, allTours) => {
+      if (err) return err;
+      res.json(allTours);
+    })
     .sort({ date: "desc" });
 });
 
@@ -175,7 +230,7 @@ const checkIfTourAlreadyExist = (title) => {
 
 app.post("/api/tours/new", (req, res) => {
   let { currency, overview, title, location, price, image } = req.body;
-  if (checkIfUserHasAlreadyBooked(title)) {
+  if (checkIfTourAlreadyExist(title)) {
     res.json({
       message:
         "<p style='color:orange;font-size:20px'>The tour whit the title you provided already exists.</p>",
@@ -208,6 +263,15 @@ app.post("/api/tours/info/", (req, res) => {
       res.json(allTours);
     })
     .sort({ date: "desc" });
+});
+
+app.post("/api/tours/delete/", (req, res) => {
+  toursTable.remove({ _id: req.body.id }, (err) => {
+    if (err) {
+      return err;
+    }
+    res.json({ message: "success" });
+  });
 });
 
 app.post("/api/tours/allInfo/", (req, res) => {
