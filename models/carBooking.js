@@ -15,5 +15,5 @@ let carBooking = mongoose.Schema({
   date: { type: String, default: date },
 });
 
-module.exports = mongoose.model("cars", carBooking, "cars");
+module.exports = mongoose.model("carsBooking", carBooking, "carsBooking");
 //mongoose.model('model name', schema_variable, 'collection name');
