@@ -64,6 +64,15 @@ app.post("/api/cars", (req, res) => {
     .sort({ date: "desc" });
 });
 
+app.post("/api/users", (req, res) => {
+  usersTable
+    .find({}, (err, allTours) => {
+      if (err) return err;
+      res.json(allTours);
+    })
+    .sort({ date: "desc" });
+});
+
 app.post("/api/cars/notBooked", (req, res) => {
   carsTable
     .find({ status: "Not Booked" }, (err, allTours) => {
@@ -143,6 +152,44 @@ app.post("/api/tours/booking1", (req, res) => {
     booking.title = title;
     booking.payment = [];
     booking.save((err) => {
+      if (err) {
+        res.json({ message: "Something went wrong. " + err });
+      } else {
+        res.json({ message: "success" });
+      }
+    });
+  }
+});
+
+const checkIfTourAlreadyExist = (title) => {
+  let query = { title: title };
+  toursTable.find(query, (err, info) => {
+    if (err) return err;
+    if (info.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+};
+
+app.post("/api/tours/new", (req, res) => {
+  let { currency, title, location, price, image } = req.body;
+  if (checkIfUserHasAlreadyBooked(userEmail, tourId)) {
+    res.json({
+      message:
+        "<p style='color:orange;font-size:20px'>The tour whit the title you provided already exists.</p>",
+    });
+  } else {
+    //The user has never booked this tour
+    let tour = new toursTable();
+    tour.title = title;
+    tour.currency = currency;
+    tour.location = location;
+    tour.price = price;
+    tour.title = title;
+    tour.images = [image];
+    tour.save((err) => {
       if (err) {
         res.json({ message: "Something went wrong. " + err });
       } else {
