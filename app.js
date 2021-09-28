@@ -174,7 +174,7 @@ const checkIfTourAlreadyExist = (title) => {
 };
 
 app.post("/api/tours/new", (req, res) => {
-  let { currency, title, location, price, image } = req.body;
+  let { currency, overview, title, location, price, image } = req.body;
   if (checkIfUserHasAlreadyBooked(title)) {
     res.json({
       message:
@@ -188,6 +188,7 @@ app.post("/api/tours/new", (req, res) => {
     tour.location = location;
     tour.price = price;
     tour.title = title;
+    tour.overview = overview;
     tour.images = [image];
     tour.save((err) => {
       if (err) {
