@@ -99,7 +99,7 @@ app.post("/api/cars/new", (req, res) => {
     car.currency = currency;
     car.description = description;
     car.price = price;
-    car.images = image;
+    car.image = image;
     car.save((err) => {
       if (err) {
         res.json({ message: "Something went wrong. " + err });
