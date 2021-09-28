@@ -8,7 +8,7 @@ const dbConfig = require("./config/db");
 
 let toursTable = require("./models/tours");
 let usersTable = require("./models/users");
-let usersTable = require("./models/cars");
+let carsTable = require("./models/cars");
 let toursBookingTable = require("./models/tours_booking");
 
 //connecting to db
@@ -55,7 +55,7 @@ app.get("/api/tours", (req, res) => {
     .sort({ date: "desc" });
 });
 
-app.get("/api/cars", (req, res) => {
+app.post("/api/cars", (req, res) => {
   carsTable
     .find({}, (err, allTours) => {
       if (err) return err;
@@ -64,7 +64,7 @@ app.get("/api/cars", (req, res) => {
     .sort({ date: "desc" });
 });
 
-app.get("/api/cars/notBooked", (req, res) => {
+app.post("/api/cars/notBooked", (req, res) => {
   carsTable
     .find({ status: "Not Booked" }, (err, allTours) => {
       if (err) return err;
