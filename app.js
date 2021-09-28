@@ -175,7 +175,7 @@ const checkIfTourAlreadyExist = (title) => {
 
 app.post("/api/tours/new", (req, res) => {
   let { currency, title, location, price, image } = req.body;
-  if (checkIfUserHasAlreadyBooked(userEmail, tourId)) {
+  if (checkIfUserHasAlreadyBooked(title)) {
     res.json({
       message:
         "<p style='color:orange;font-size:20px'>The tour whit the title you provided already exists.</p>",
