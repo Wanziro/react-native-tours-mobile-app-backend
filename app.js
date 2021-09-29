@@ -75,15 +75,6 @@ app.post("/api/cars", (req, res) => {
 });
 
 app.post("/api/cars/booked", (req, res) => {
-  carsBookingTable
-    .find({}, (err, allTours) => {
-      if (err) return err;
-      res.json(allTours);
-    })
-    .sort({ date: "desc" });
-});
-
-app.post("/api/cars/booked", (req, res) => {
   carsTable
     .find({ status: "Booked" }, (err, allTours) => {
       if (err) return err;
