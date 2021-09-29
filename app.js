@@ -99,6 +99,7 @@ app.post("/api/car/pay", (req, res) => {
     name,
     price,
     currency,
+    image,
     userEmail,
     userNames,
     days,
@@ -111,6 +112,7 @@ app.post("/api/car/pay", (req, res) => {
   payment.userEmail = userEmail;
   payment.userNames = userNames;
   payment.price = price;
+  payment.image = image;
   payment.currency = currency;
   payment.amountPaid = amountPaid;
   payment.transactionId = transactionId;
