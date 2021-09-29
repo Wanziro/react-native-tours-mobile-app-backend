@@ -75,8 +75,17 @@ app.post("/api/cars/booked", (req, res) => {
 });
 
 app.post("api/car/pay", (req, res) => {
-  let { carId, name, price, currency, userEmail, userNames, days, amountPaid } =
-    req.body;
+  let {
+    carId,
+    transactionId,
+    name,
+    price,
+    currency,
+    userEmail,
+    userNames,
+    days,
+    amountPaid,
+  } = req.body;
 
   let payment = new carsBookingTable();
   payment.carId = carId;
@@ -86,6 +95,7 @@ app.post("api/car/pay", (req, res) => {
   payment.price = price;
   payment.currency = currency;
   payment.amountPaid = amountPaid;
+  payment.transactionId = transactionId;
   payment.save((err) => {
     if (err) {
       res.json({ message: "Something went wrong. " + err });
