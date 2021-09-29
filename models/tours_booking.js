@@ -11,7 +11,7 @@ let toursBookingSchema = mongoose.Schema({
   title: { type: String, required: true },
   userEmail: { type: String, required: true },
   bookingType: { type: String, required: true },
-  bookingDocumentType: { required: true, type: String },
+  bookingDocumentType: { required: true, type: String, default: null },
   bookingDocument: { required: true, type: String, default: null },
   payment: [],
   status: { type: String, default: "Pending" },
