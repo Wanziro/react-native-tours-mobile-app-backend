@@ -74,7 +74,7 @@ app.post("/api/cars/booked", (req, res) => {
     .sort({ date: "desc" });
 });
 
-app.post("api/car/pay", (req, res) => {
+app.post("/api/car/pay", (req, res) => {
   let {
     carId,
     transactionId,
