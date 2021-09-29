@@ -96,6 +96,7 @@ app.post("api/car/pay", (req, res) => {
   payment.currency = currency;
   payment.amountPaid = amountPaid;
   payment.transactionId = transactionId;
+  payment.days = days;
   payment.save((err) => {
     if (err) {
       res.json({ message: "Something went wrong. " + err });
