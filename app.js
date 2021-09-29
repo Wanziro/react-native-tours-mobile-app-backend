@@ -56,9 +56,18 @@ app.get("/api/tours", (req, res) => {
     .sort({ date: "desc" });
 });
 
-app.post("/api/cars", (req, res) => {
+app.post("/api/allcars", (req, res) => {
   carsTable
     .find({}, (err, allTours) => {
+      if (err) return err;
+      res.json(allTours);
+    })
+    .sort({ date: "desc" });
+});
+
+app.post("/api/cars", (req, res) => {
+  carsTable
+    .find({ status: "Not Booked" }, (err, allTours) => {
       if (err) return err;
       res.json(allTours);
     })
@@ -68,6 +77,15 @@ app.post("/api/cars", (req, res) => {
 app.post("/api/cars/booked", (req, res) => {
   carsTable
     .find({ status: "Booked" }, (err, allTours) => {
+      if (err) return err;
+      res.json(allTours);
+    })
+    .sort({ date: "desc" });
+});
+
+app.post("/api/cars/mystatus", (req, res) => {
+  carsBookingTable
+    .find({ userEmail: req.body.userEmail }, (err, allTours) => {
       if (err) return err;
       res.json(allTours);
     })
@@ -101,6 +119,16 @@ app.post("/api/car/pay", (req, res) => {
     if (err) {
       res.json({ message: "Something went wrong. " + err });
     } else {
+      toursBookingTable.updateOne(
+        { _id: carId },
+        { status: "Booked" },
+        (err) => {
+          if (err) {
+            return err;
+          }
+          // res.json({ message: "success" });
+        }
+      );
       res.json({ message: "success" });
     }
   });
