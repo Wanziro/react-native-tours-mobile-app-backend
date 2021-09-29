@@ -282,36 +282,29 @@ app.post("/api/tours/booking1", (req, res) => {
 app.post("/api/tours/booking2", (req, res) => {
   let { userEmail, title, tourId, price, amount, currency, transactionId } =
     req.body;
-  if (checkIfUserHasAlreadyBooked(userEmail, tourId)) {
-    res.json({
-      message:
-        "<p style='color:orange;font-size:20px'>You have already booked at this tour.</p>",
-    });
-  } else {
-    let paid = [
-      {
-        price,
-        amount,
-        currency,
-        transactionId,
-      },
-    ];
-    //The user has never booked this tour
-    let booking = new toursBookingTable();
-    booking.tourId = tourId;
-    booking.userEmail = userEmail;
-    booking.bookingType = "Payment of 50%";
-    booking.title = title;
-    booking.payment = paid;
-    booking.status = "Approved";
-    booking.save((err) => {
-      if (err) {
-        res.json({ message: "Something went wrong. " + err });
-      } else {
-        res.json({ message: "success" });
-      }
-    });
-  }
+  let paid = [
+    {
+      price,
+      amount,
+      currency,
+      transactionId,
+    },
+  ];
+  //The user has never booked this tour
+  let booking = new toursBookingTable();
+  booking.tourId = tourId;
+  booking.userEmail = userEmail;
+  booking.bookingType = "Payment of 50%";
+  booking.title = title;
+  booking.payment = paid;
+  booking.status = "Approved";
+  booking.save((err) => {
+    if (err) {
+      res.json({ message: "Something went wrong. " + err });
+    } else {
+      res.json({ message: "success" });
+    }
+  });
 });
 
 const checkIfTourAlreadyExist = (title) => {
