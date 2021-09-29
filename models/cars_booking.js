@@ -6,14 +6,21 @@ let d = String(today.getDay()).padStart(2, "0");
 let date = y + "-" + m + "-" + d;
 
 //creating article schema (structure of students collaction)
-let carBooking = mongoose.Schema({
+let toursBookingSchema = mongoose.Schema({
   carId: { type: String, required: true },
+  name: { type: String, required: true },
   userEmail: { type: String, required: true },
-  daysBooked: { type: String, required: true },
-  amountPaid: { type: String, required: true },
-  currency: { type: String, required: true },
+  userNames: { type: String, required: true },
+  days: { required: true, type: String },
+  price: { required: true, type: String, default: null },
+  amountPaid: { required: true, type: String, default: null },
+  status: { type: String, default: "Paid" },
   date: { type: String, default: date },
 });
 
-module.exports = mongoose.model("carsBooking", carBooking, "carsBooking");
+module.exports = mongoose.model(
+  "carsBooking",
+  toursBookingSchema,
+  "carsBooking"
+);
 //mongoose.model('model name', schema_variable, 'collection name');

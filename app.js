@@ -10,6 +10,7 @@ let toursTable = require("./models/tours");
 let usersTable = require("./models/users");
 let carsTable = require("./models/cars");
 let toursBookingTable = require("./models/tours_booking");
+let carsBookingTable = require("./models/cars_booking");
 
 //connecting to db
 mongoose.connect(dbConfig.database, {
@@ -71,6 +72,27 @@ app.post("/api/cars/booked", (req, res) => {
       res.json(allTours);
     })
     .sort({ date: "desc" });
+});
+
+app.post("api/car/pay", (req, res) => {
+  let { carId, name, price, currency, userEmail, userNames, days, amountPaid } =
+    req.body;
+
+  let payment = new carsBookingTable();
+  payment.carId = carId;
+  payment.name = name;
+  payment.userEmail = userEmail;
+  payment.userNames = userNames;
+  payment.price = price;
+  payment.currency = currency;
+  payment.amountPaid = amountPaid;
+  payment.save((err) => {
+    if (err) {
+      res.json({ message: "Something went wrong. " + err });
+    } else {
+      res.json({ message: "success" });
+    }
+  });
 });
 
 const checkIfCAlreadyExist = (title) => {
