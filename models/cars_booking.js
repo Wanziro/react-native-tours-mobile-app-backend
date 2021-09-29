@@ -15,7 +15,7 @@ let toursBookingSchema = mongoose.Schema({
   price: { required: true, type: String, default: null },
   amountPaid: { required: true, type: String, default: null },
   transactionId: { required: true, type: String, default: null },
-  status: { type: String, default: "Paid" },
+  status: { type: String, default: "Paid " },
   date: { type: String, default: date },
 });
 
